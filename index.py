@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect
 from db import Database
 app=Flask(__name__)
 dbo=Database()
@@ -24,8 +24,11 @@ def perform_login():
     password = request.form.get('password')
     response = dbo.search(email,password)
     if(response):
-        return "successful"
+        return redirect('/profile')
     else:
         return render_template('login.html',m='incorrect email/password')
+@app.route('/profile')
+def profile():
+    return 'profile'
 
 app.run(debug=True)
