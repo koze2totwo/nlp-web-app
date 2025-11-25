@@ -29,6 +29,14 @@ def perform_login():
         return render_template('login.html',m='incorrect email/password')
 @app.route('/profile')
 def profile():
-    return 'profile'
+    return render_template('profile.html')
+@app.route('/ner')
+def nre():
+    return render_template('ner.html')
+@app.route('/perform_ner',methods=['post'])
+def perform_ner():
+    text=request.form.get('ner_text')
+
+
 
 app.run(debug=True)
