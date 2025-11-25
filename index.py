@@ -1,5 +1,6 @@
 from flask import Flask,render_template,request,redirect
 from db import Database
+import api
 app=Flask(__name__)
 dbo=Database()
 @app.route('/')
@@ -36,6 +37,9 @@ def nre():
 @app.route('/perform_ner',methods=['post'])
 def perform_ner():
     text=request.form.get('ner_text')
+    response= api.ner(text)
+    print(response)
+    return "something"
 
 
 
