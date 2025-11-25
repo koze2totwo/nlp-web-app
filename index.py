@@ -1,6 +1,7 @@
 from flask import Flask,render_template,request,redirect
 from db import Database
 import api
+import spacy
 app=Flask(__name__)
 dbo=Database()
 @app.route('/')
@@ -38,7 +39,8 @@ def nre():
 def perform_ner():
     text=request.form.get('ner_text')
     response= api.ner(text)
-    print(response)
+    for ent in response.ents:
+        print(f"{ent.text:20} | {ent.label_:10} | {spacy.explain(ent.label_)}")
     return "something"
 
 
