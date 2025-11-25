@@ -7,18 +7,20 @@
 </head>
 <body>
     <h1>NLP App</h1>
-    {% if m %}
-    <p style="color: green;">{{ m }}</p>
-    {% endif %}
-    <h3>Login Here</h3>
-    <form action="/perform_login" method="post">
+    <h3>Register Here</h3>
+    <form action="/perform_registration" method="post">
+        <label for="">Name</label><br>
+        <input type="text" name="name" id=""><br>
         <label>Email</label><br>
         <input type="email" name="email" id=""><br>
         <label for="">Password</label><br>
         <input type="password" name="password">
-        <input type="submit" value="Login">
+        <input type="submit" value="Register">
     </form>
-    <p>Not a member? <a href="/register">Register Here</a></p>
+    {% if message %}
+    <p style="color: red;">{{ message }}</p>
+    {% endif %}
+    <p>already a member? <a href="/">Login Here</a></p>
     
 </body>
 </html>
