@@ -1,9 +1,11 @@
-from flask import Flask,render_template,request,redirect
+from flask import Flask,render_template,request,redirect,session
 from db import Database
 import api
 import spacy
+from spacy import displacy
 app=Flask(__name__)
 dbo=Database()
+
 @app.route('/')
 def index():
     return render_template('login.html')
@@ -26,22 +28,33 @@ def perform_login():
     password = request.form.get('password')
     response = dbo.search(email,password)
     if(response):
+      
         return redirect('/profile')
     else:
         return render_template('login.html',m='incorrect email/password')
 @app.route('/profile')
 def profile():
-    return render_template('profile.html')
+    if(session):
+        return render_template('profile.html')
+    else:
+       return redirect('/')
 @app.route('/ner')
 def nre():
-    return render_template('ner.html')
+    
+    if(session):
+        return render_template('ner.html')
+    else:
+       return redirect('/')
 @app.route('/perform_ner',methods=['post'])
 def perform_ner():
-    text=request.form.get('ner_text')
-    response= api.ner(text)
-    for ent in response.ents:
-        print(f"{ent.text:20} | {ent.label_:10} | {spacy.explain(ent.label_)}")
-    return "something"
+    if(session):
+        text=request.form.get('ner_text')
+        response= api.ner(text)
+        html=displacy.render(response,style='ent')
+        return html
+    else:
+       return redirect('/')
+    
 
 
 
